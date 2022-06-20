@@ -13,7 +13,7 @@ import java.util.Set;
 //@SpringBootTest
 class JedisApplicationTests {
 
-    Jedis jedis = new Jedis("172.16.0.107", 6379);
+    Jedis jedis = new Jedis("172.16.1.110", 6379);
 
     @Test
     void contextLoads() {
