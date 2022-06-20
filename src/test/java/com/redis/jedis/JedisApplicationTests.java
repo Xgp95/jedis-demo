@@ -2,13 +2,11 @@ package com.redis.jedis;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.web.bind.annotation.PathVariable;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.Tuple;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 //@SpringBootTest
 class JedisApplicationTests {
@@ -90,4 +88,50 @@ class JedisApplicationTests {
         System.out.println(keys1 + "~~~");
     }
 
+
+    @Test
+    void codeTest() {
+        String phone = "12345678902";
+        getVerifyCode(phone);
+        String code = "255614";
+//        verifyCode(code,phone);
+    }
+
+    public void getVerifyCode(String phone) {
+        String countKey = "VerifyCode" + phone + ":count";
+        String codeKey = "VerifyCode" + phone + ":code";
+        String count = (String) jedis.get(countKey);
+        if (count == null) {
+//            redisTemplate.opsForValue().set(countKey, 1, 24 * 3600);
+            jedis.setex(countKey, 24*3600, "1");
+        } else if (Integer.parseInt(count) <= 2) {
+//            redisTemplate.opsForValue().increment(countKey);
+            jedis.incr(countKey);
+        } else if (Integer.parseInt(count) > 2) {
+            jedis.close();
+            System.out.println("发送超过3次");
+            return;
+        }
+        String code = getCode();
+        System.out.println("生成了:" + code);
+        jedis.setex(codeKey, 120, code);
+    }
+
+    private String getCode() {
+        String code = "";
+        for (int i = 0; i < 6; i++) {
+            code += new Random().nextInt(10);
+        }
+        return code;
+    }
+
+    public void verifyCode(String code, String phone) {
+        String codeKey = "VerifyCode" + phone + ":code";
+        String redisCode = (String) jedis.get(codeKey);
+        if (redisCode.equals(code)) {
+            System.out.println("验证成功");
+        } else {
+            System.out.println("验证失败");
+        }
+    }
 }

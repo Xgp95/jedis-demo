@@ -3,8 +3,14 @@ package com.redis.jedis.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import redis.clients.jedis.Jedis;
+
+import java.util.Random;
 
 /**
  * @author: Xugp
@@ -16,6 +22,11 @@ public class RedisTestController {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @GetMapping(value = "/")
+    public String index() {
+        return "index";
+    }
+
     @GetMapping(value = "/redisTest")
     @ResponseBody
     public String redisTest() {
@@ -24,4 +35,5 @@ public class RedisTestController {
         System.out.println(redisTemplate);
         return name;
     }
+
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+
+</head>
+<body>
+    <form th:action="@{/getVerifyCode}" method="get">
+        <input type="text" id="phone" name="phone"><input type="submit" id="submit-btn" value="发送验证码"><br>
+        <p id="msg" ></p>
+    </form>
+    <form th:action="@{/verifyCode}" method="get">
+        <input type="text" id="verify" name="verify"><input type="submit" id="verify-btn" value="确定">
+    </form>
+</body>
+</html>
