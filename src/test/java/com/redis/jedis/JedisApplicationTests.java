@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.bind.annotation.PathVariable;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 
 import java.util.*;
@@ -11,7 +12,7 @@ import java.util.*;
 //@SpringBootTest
 class JedisApplicationTests {
 
-    Jedis jedis = new Jedis("172.16.1.110", 6379);
+    Jedis jedis = new Jedis("172.16.0.242", 6379);
 
     @Test
     void contextLoads() {
@@ -133,5 +134,27 @@ class JedisApplicationTests {
         } else {
             System.out.println("验证失败");
         }
+    }
+
+    @Test
+    void multiTest() {
+        jedis.set("blance", "1000");
+        jedis.watch("blance");
+        Transaction multi = jedis.multi();
+//        multi.set("k1", "v1");
+//        multi.set("k2", "v2");
+//        multi.set("k2", "v4");
+//        multi.set("k3", "v3");
+//        List<Object> exec = multi.exec();
+//        for (Object o : exec) {
+//            System.out.println(o);
+//        }
+        multi.decrBy("blance", 800);
+        multi.discard();
+        multi.incrBy("blance", 1500);
+//        List<Object> exec = multi.exec();
+//        for (Object o : exec) {
+//            System.out.println(o);
+//        }
     }
 }
