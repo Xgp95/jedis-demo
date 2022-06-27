@@ -11,11 +11,11 @@
 </h1>
 
 
-<form id="msform" action="${pageContext.request.contextPath}/doseckill" enctype="application/x-www-form-urlencoded">
+<form id="msform" action="/doseckill" enctype="application/x-www-form-urlencoded" method="post">
 	<input type="hidden" id="prodid" name="prodid" value="0101">
 	<input type="button"  id="miaosha_btn" name="seckill_btn" value="秒杀点我"/>
 </form>
-
+<div>${pageContext.request.contextPath}</div>
 </body>
 <script  type="text/javascript" src="${pageContext.request.contextPath}/static/js/jquery-3.1.0.js"></script>
 <script  type="text/javascript">

@@ -23,7 +23,7 @@ public class SecKillController {
     @RequestMapping(value = "/doseckill",method = RequestMethod.POST)
     public String doseckill(@RequestParam("prodid") String prodid) {
 //        String prodid =request.getParameter("prodid");
-
+        System.out.println("*******");
         boolean isSuccess = false;
         try {
             isSuccess = SecKill_redis.doSecKill(userid, prodid);
